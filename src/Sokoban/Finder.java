@@ -53,8 +53,6 @@ public abstract class Finder {
 
             if (nextPoint == null) {
                 String directions = "";
-                System.out.println();
-                System.out.println(i);
                 for (Point2D move : moves) {
                     directions += move.dir;
                 }
@@ -63,34 +61,37 @@ public abstract class Finder {
 
             xq = nextPoint.getX();
             yq = nextPoint.getY();
-//            if (moves.contains(nextPoint)) {
-//                moves = moves.subList(0, moves.indexOf(nextPoint)+1);
-//            } else {
-//            }
-            moves.add(nextPoint);
+
+            if (moves.contains(nextPoint)) {
+                moves = moves.subList(0, moves.indexOf(nextPoint)+1);
+            } else {
+                moves.add(nextPoint);
+            }
+
             map.get(yq).set(xq, map.get(yq).get(xq) + 1);
-            System.out.print(nextPoint.dir);
+//            System.out.print(nextPoint.dir);
 
             if (xq == xPos && yq == yPos) {
                 String directions = "";
-                System.out.println();
-                System.out.println(i);
                 for (Point2D move : moves) {
                     directions += move.dir;
                 }
 
-                System.out.println("YOU HAVE WON!!! MOFO!");
+                System.out.println("\nYOU HAVE WON!!!");
                 return directions;
             }
         }
     }
+
+
 
     private static Point2D findNeighbour(int x, int y) {
         Point2D down = new Point2D(x, y+1, map.get(y+1).get(x), 'd');
         Point2D up = new Point2D(x, y-1, map.get(y-1).get(x), 'u');
         Point2D left = new Point2D(x-1, y, map.get(y).get(x-1), 'l');
         Point2D right = new Point2D(x+1, y, map.get(y).get(x+1), 'r');
-        List<Point2D> dir = Arrays.asList(down, right, left, up);
+
+        List<Point2D> dir = Arrays.asList(up, down, right, left);
         dir.sort(null);
 
 
@@ -106,6 +107,8 @@ public abstract class Finder {
     }
 
 }
+
+
 class Point2D implements Comparable{
     int x;
     int y;
@@ -120,9 +123,6 @@ class Point2D implements Comparable{
         this.dir = dir;
     }
 
-    public void increment() {
-        val++;
-    }
 
     public int getX() {
         return x;

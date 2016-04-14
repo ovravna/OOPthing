@@ -11,7 +11,8 @@ import java.util.*;
 public class Sokoban implements ISokoban, ObserableGrid {
     private List<List<Boolean>> frame = new ArrayList<>();
     private List<GridListener> listeners = new ArrayList<>();
-
+    static Sokoban sokoban;
+    static Scanner input = new Scanner(System.in);
 
     static String s = "#######\n"+
             "#.@ # #\n"+
@@ -69,13 +70,40 @@ public class Sokoban implements ISokoban, ObserableGrid {
             "  *  \n";
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
 
-        Sokoban sokoban = new Sokoban();
+        sokoban = new Sokoban();
         sokoban.init(w);
-        String dirs =  Finder.findPath(sokoban.toString(), 11, 1);
+        ai();
+
+//        player();
 
 
+
+    }
+
+    static void ai() {
+        String dirs = Finder.findPath(sokoban.toString(), 11, 1);
+
+        Map<String, Point> charMapAutonomous = new HashMap<String, Point>() {{
+            put("u", Point.UP);
+            put("d", Point.DOWN);
+            put("l", Point.LEFT);
+            put("r", Point.RIGHT);
+
+        }};
+        System.out.println(dirs);
+        int i = 0;
+        for (char c : dirs.toCharArray()) {
+//            System.out.println(sokoban);
+            sokoban.move(charMapAutonomous.get(String.valueOf(c)));
+            i++;
+        }
+        System.out.println(sokoban);
+    }
+
+
+
+    void player() {
         Map<String, Point> charMap = new HashMap<String, Point>() {{
             put("w", Point.UP);
             put("s", Point.DOWN);
@@ -84,31 +112,16 @@ public class Sokoban implements ISokoban, ObserableGrid {
 
         }};
 
-        Map<String, Point> charMap2 = new HashMap<String, Point>() {{
-            put("u", Point.UP);
-            put("d", Point.DOWN);
-            put("l", Point.LEFT);
-            put("r", Point.RIGHT);
+        String s;
+        do {
 
-        }};
-        int i = 0;
-        for (char c :  dirs.toCharArray()) {
-            System.out.println(i);
+
             System.out.println(sokoban);
-            sokoban.move(charMap2.get(String.valueOf(c)));
-            i++;
-        }
-
-
-//        String s;
-//        do {
-//
-//
-//            System.out.println(sokoban);
-//            do {
-//            } while (!charMap.containsKey(s = input.next()));
-//        } while (sokoban.move(charMap.get(s)));
+            do {
+            } while (!charMap.containsKey(s = input.next()));
+        } while (sokoban.move(charMap.get(s)));
     }
+
 
 
     @Override
@@ -267,7 +280,6 @@ public class Sokoban implements ISokoban, ObserableGrid {
 
         if (pushCell == null || pushCell instanceof Goal) {
             box.setPosition(pushPoint);
-            System.out.println(Cell.isLeft());
             if (Cell.isLeft() == 1) {
                 try {
                     Cell c = Cell.getCell(3, 6);
