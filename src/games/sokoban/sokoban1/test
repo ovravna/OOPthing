@@ -1,0 +1,21 @@
+from __future__ import division
+import numpy as np
+import itertools
+
+n = 6
+iters = 1000
+firstzero = 0
+bothzero = 0
+for S in itertools.product([-1, 1], repeat=n+1):
+    for i in xrange(iters):
+        F = np.random.choice(np.array([-1, 0, 0, 1], dtype=np.int8), size=n)
+        while np.all(F == 0):
+            F = np.random.choice(np.array([-1, 0, 0, 1], dtype=np.int8), size=n)
+        FS = np.convolve(F, S, 'valid')
+        if FS[0] == 0:
+            firstzero += 1
+        if np.all(FS == 0):
+            bothzero += 1
+
+print("firstzero: %i" % firstzero)
+print("bothzero: %i" % bothzero)
