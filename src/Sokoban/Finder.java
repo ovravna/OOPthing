@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Finder {
+public abstract class Finder {
     static int startx = 0, starty = 0;
     static List<List<Integer>> map = new ArrayList<>();
 
@@ -28,7 +28,6 @@ public class Finder {
                 case '#':
                 case '$':
                 case '*':
-                case 'X':
                     map.get(y).add(4);
                     break;
                 case '@':

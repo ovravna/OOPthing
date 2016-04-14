@@ -129,7 +129,6 @@ public class Sokoban implements ISokoban, ObserableGrid {
                 case ' ':
                     break;
                 case '#':
-                case 'X':
                     new Wall(x, y);
                     break;
                 case '.':
